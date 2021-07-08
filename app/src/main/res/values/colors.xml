@@ -10,5 +10,6 @@
     <color name="blue">#03A9F4</color>
     <color name="gray">#A3A3Ab</color>
     <color name="grey">#EEEEEE</color>
+    <color name="item_back">#F7EFDE</color>
 
 </resources>

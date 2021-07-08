@@ -1,6 +1,7 @@
 package syntex_error.simec.technical_test.verseApp.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.util.Log
@@ -13,10 +14,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import syntex_error.simec.technical_test.verseApp.R
+import syntex_error.simec.technical_test.verseApp.data.models.Verse
+import syntex_error.simec.technical_test.verseApp.data.models.translationModel
 import syntex_error.simec.technical_test.verseApp.databinding.ItemPostBinding
 import syntex_error.simec.technical_test.verseApp.databinding.LoadStateViewBinding
-import syntex_error.simec.technical_test.verseApp.data.models.translationModel
-import syntex_error.simec.technical_test.verseApp.data.models.Verse
 
 
 class VersesListAdapter(private val interaction: Interaction? = null) :
@@ -55,6 +56,16 @@ class VersesListAdapter(private val interaction: Interaction? = null) :
         private val binding = ItemPostBinding.bind(itemView)
 
         fun bind(item: Verse) = with(itemView) {
+
+            if (absoluteAdapterPosition % 2 == 1) {
+                binding.card.setBackgroundColor(Color.parseColor("#FFFFFF"))
+
+
+            } else {
+                binding.card.setBackgroundColor(Color.parseColor("#F7EFDE"))
+
+            }
+
             itemView.setOnClickListener {
                 interaction?.onItemSelected(absoluteAdapterPosition, item)
             }
@@ -91,7 +102,6 @@ class VersesListAdapter(private val interaction: Interaction? = null) :
                 }
 
                 //    binding.expandableLayout.visibility = if (isExpended) View.VISIBLE else View.GONE
-
 
 
             }

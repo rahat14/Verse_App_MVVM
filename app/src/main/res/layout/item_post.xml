@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/blue"
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:background="@color/item_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
@@ -38,9 +39,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="-2dp"
+                android:layout_marginHorizontal="4dp"
                 android:text="Check Translations"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textColor="@color/blue"
+                android:textSize="13sp"
                 android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/expandableLayout"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +83,7 @@
                 android:layout_marginTop="8dp"
                 android:forceDarkAllowed="false"
                 android:background="@color/grey"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
