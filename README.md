@@ -17,3 +17,6 @@ for Android.
 ## Architecture
 - MVVM Architecture (View - ViewBinding - ViewModel - Model)
 - Repository pattern
+
+# Core Architecture
+![alt text](https://developer.android.com/topic/libraries/architecture/images/paging3-layered-architecture.svg)
