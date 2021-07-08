@@ -26,7 +26,7 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
     lateinit var connectionLiveData: ConnectionLiveData
     lateinit var binding: FragmentNewsBinding
     var isInternetGone = false
-    private val newsPagingAdapter = VersesListAdapter(this)
+    private val pagingAdapter = VersesListAdapter(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.pager.collectLatest {
-                newsPagingAdapter.submitData(it)
+                pagingAdapter.submitData(it)
 
             }
         }
@@ -52,7 +52,7 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
         //check for internet
         connectionLiveData.observe(viewLifecycleOwner) { isNetworkAvailable ->
             if (isNetworkAvailable && isInternetGone == true) {
-                viewModel.internetIsBackMsg(binding.root, newsPagingAdapter)
+                viewModel.internetIsBackMsg(binding.root, pagingAdapter)
                 isInternetGone = false
             } else if (isNetworkAvailable == false) {
                 viewModel.noInternetMsg(binding.root)
@@ -62,6 +62,10 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
 
         }
 
+        binding.btnRetry.setOnClickListener {
+            pagingAdapter.refresh()
+        }
+
 
     }
 
@@ -69,12 +73,12 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
 
         binding.blogList.apply {
             setHasFixedSize(true)
-            adapter = newsPagingAdapter.withLoadStateFooter(
-                footer = VerseNetworkLoadStateAdapter { newsPagingAdapter.retry() }
+            adapter = pagingAdapter.withLoadStateFooter(
+                footer = VerseNetworkLoadStateAdapter { pagingAdapter.retry() }
             )
             layoutManager = LinearLayoutManager(context)
         }
-        newsPagingAdapter.addLoadStateListener { loadState ->
+        pagingAdapter.addLoadStateListener { loadState ->
 
             if (loadState.refresh is LoadState.Loading) {
                 binding.btnRetry.visibility = View.GONE
@@ -89,7 +93,7 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
                     loadState.append is LoadState.Error -> loadState.append as LoadState.Error
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
                     loadState.refresh is LoadState.Error -> {
-                        if (newsPagingAdapter.itemCount == 0) {
+                        if (pagingAdapter.itemCount == 0) {
                             binding.btnRetry.visibility = View.VISIBLE
                         } else binding.btnRetry.visibility = View.GONE
                         loadState.refresh as LoadState.Error
@@ -114,6 +118,7 @@ class VersesListFragment : androidx.fragment.app.Fragment(R.layout.fragment_news
 
         if (!Utils.isOnline(requireContext())) {
             viewModel.noInternetMsg(binding.root)
+            isInternetGone = true
         }
 
     }
